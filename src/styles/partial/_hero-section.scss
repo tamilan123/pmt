@@ -1,0 +1,14 @@
+.hero-section {
+  .shape {
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-bottom: 130px solid #000;
+      border-left: 210px solid transparent;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
