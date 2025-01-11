@@ -1,12 +1,11 @@
 import { useState } from "react";
 
 const BuyNFTPopup = ({ onClose, buyPrice }) => {
-  const [tokenType, setTokenType] = useState("ETH");
+  const [tokenType, setTokenType] = useState("PMT");
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
       <div className="bg-white rounded-lg p-8 w-[500px] shadow-lg">
-        {/* Popup Header */}
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">BUY NFT</h2>
           <button
@@ -16,10 +15,7 @@ const BuyNFTPopup = ({ onClose, buyPrice }) => {
             ✖
           </button>
         </div>
-
-        {/* Popup Content */}
         <div className="mt-6">
-          {/* Token Type Dropdown */}
           <div className="mb-4">
             <label
               htmlFor="tokenType"
@@ -33,22 +29,30 @@ const BuyNFTPopup = ({ onClose, buyPrice }) => {
                 value={tokenType}
                 onChange={(e) => setTokenType(e.target.value)}
                 className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm appearance-none"
-                style={{
-                  backgroundImage:
-                    "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyLjU2IDUuNzQyTDEyIDUuMjU3TDUuNDUgMTEuNzVMNC44NiAxMkw0LjM4IDExLjUyTDExLjk1IDUuMDM1TDEyLjU2IDUuNzQyWiIgZmlsbD0iI0MzQzNDMyIvPgo8L3N2Zz4=')",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 0.75rem center",
-                  backgroundSize: "1rem",
-                }}
               >
+                <option value="PMT">PMT</option>
                 <option value="ETH">ETH</option>
                 <option value="BTC">BTC</option>
                 <option value="USDT">USDT</option>
               </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none pr-2">
+                <svg
+                  className="w-5 h-5 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
-
-          {/* Wallet Balance */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Wallet Balance
@@ -57,18 +61,14 @@ const BuyNFTPopup = ({ onClose, buyPrice }) => {
               {tokenType}
             </div>
           </div>
-
-          {/* Buy Price */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700">
               Buy Price
             </label>
             <div className="mt-1 bg-gray-100 p-2 rounded-md text-gray-600">
-              {buyPrice} {tokenType}
+              {buyPrice}
             </div>
           </div>
-
-          {/* Buy Now Button */}
           <div className="flex justify-center">
             <button
               onClick={() => alert("Purchase Confirmed!")}

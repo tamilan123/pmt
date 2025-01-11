@@ -7,7 +7,7 @@ const Card = ({ name, edition, value, total, slug, imgSrc, onBuyClick }) => {
   const navigate = useNavigate();
   return (
     <div
-      className={`relative bg-gray-900 text-white rounded-2xl border-gray-400  transition-transform transform overflow-hidden h-[30rem]`}
+      className={`relative bg-gray-900 text-white rounded-2xl border-gray-400  transition-transform transform overflow-hidden h-[28rem]`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
