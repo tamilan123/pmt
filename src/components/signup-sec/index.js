@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Frame from "../../images/frame.png";
 import { Listbox } from "@headlessui/react";
+import { passwordLength } from "../../utils/common";
 
 // List of country codes
 
@@ -11,18 +12,21 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    addressLine1: "",
+    addressLine2: "",
     phone: "",
     email: "",
     password: "",
     confirmPassword: ""
   });
+  console.log("🚀 ~ Signup ~ formData:", formData);
   const countries = [
     { code: "+1", label: "United States", flag: "🇺🇸" },
     { code: "+91", label: "India", flag: "🇮🇳" },
     { code: "+44", label: "United Kingdom", flag: "🇬🇧" },
     { code: "+61", label: "Australia", flag: "🇦🇺" }
   ];
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [selectedCountry, setSelectedCountry] = useState(countries[1]);
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const [errors, setErrors] = useState({});
@@ -55,10 +59,17 @@ const Signup = () => {
       newErrors.email = "Email is not valid";
     }
 
+    if (!formData.addressLine1) {
+      newErrors.addressLine1 = "Address Line 1 is required";
+    }
+    if (!formData.addressLine2) {
+      newErrors.addressLine2 = "Address Line 2 is required";
+    }
+
     if (!formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long";
+    } else if (formData.password.length < passwordLength) {
+      newErrors.password = `Password must be at least ${passwordLength} characters long`;
     }
 
     if (formData.password !== formData.confirmPassword) {
@@ -114,8 +125,6 @@ const Signup = () => {
               First Name
             </label> */}
               <input
-                type="text"
-                id="firstName"
                 name="firstName"
                 placeholder="First Name"
                 value={formData.firstName}
@@ -205,10 +214,10 @@ const Signup = () => {
               onChange={handleChange}
               className={`w-full px-3 py-2 border-none rounded rounded-r-lg focus:outline-none`}
             />
-            {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-            )}
           </div>
+          {errors.phone && (
+            <p className="text-red-500 text-sm mb-2 mt-0">{errors.phone}</p>
+          )}
 
           <div className="mb-4">
             <input
@@ -228,34 +237,34 @@ const Signup = () => {
           </div>
           <div className="mb-4">
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="address1"
+              id="address1"
+              name="addressLine1"
               placeholder="Address Line 1"
-              value={formData.email}
+              value={formData.addressLine1}
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded ${
-                errors.email ? "border-red-500" : "border-gray-300"
+                errors.addressLine1 ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            {errors.addressLine1 && (
+              <p className="text-red-500 text-sm mt-1">{errors.addressLine1}</p>
             )}
           </div>
           <div className="mb-4">
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="address2"
+              id="address2"
+              name="addressLine2"
               placeholder="Address Line 2"
-              value={formData.email}
+              value={formData.addressLine2}
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded ${
-                errors.email ? "border-red-500" : "border-gray-300"
+                errors.addressLine2 ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            {errors.addressLine2 && (
+              <p className="text-red-500 text-sm mt-1">{errors.addressLine2}</p>
             )}
           </div>
 
@@ -277,18 +286,20 @@ const Signup = () => {
           </div>
           <div className="mb-4">
             <input
-              type="password"
-              id="password"
-              name="password"
+              type="confirm password"
+              id="confirm password"
+              name="confirmPassword"
               placeholder="Confirm Password"
-              value={formData.password}
+              value={formData.confirmPassword}
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded ${
-                errors.password ? "border-red-500" : "border-gray-300"
+                errors.confirmPassword ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 

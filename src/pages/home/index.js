@@ -6,8 +6,12 @@ import Collection from "../collection";
 import CardCollection from "../../pages/card-collection";
 import Footer from "../../components/layout-component/footer";
 import DigitalTreasures from "../../components/digital-treasure";
+import { useSelector } from "react-redux";
+import { getUser } from "../../redux/reducer/user_reducer";
 
 const Home = () => {
+  const user = useSelector(getUser);
+  console.log("🚀 ~ Home ~ user:", user);
   const productRef = useRef(null);
 
   const scrollToProduct = () => {

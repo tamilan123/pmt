@@ -581,6 +581,7 @@ const PaginatedCards = () => {
   const currentCards = cardInfo.slice(indexOfFirstCard, indexOfLastCard);
 
   const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
 
@@ -700,7 +701,7 @@ const PaginatedCards = () => {
     );
   };
 
-  const paginationSec = () => {
+  const paginationSec = () => (
     <div className="flex justify-center mt-4">
       <nav className="inline-flex">
         <button
@@ -739,8 +740,8 @@ const PaginatedCards = () => {
           &rarr;
         </button>
       </nav>
-    </div>;
-  };
+    </div>
+  );
 
   const filterSection = () => {
     return (
