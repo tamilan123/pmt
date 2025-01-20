@@ -3,6 +3,9 @@ import baseAxios from "./axios-utils-marketplace";
 export const signInApi = (props) =>
   baseAxios.post("/user_login", { ...props, source: "web" });
 
+export const registerApi = (props) =>
+  baseAxios.post("/register", { user: { ...props } });
+
 export const userApi = (token) =>
   baseAxios.get("/users/me", { headers: { Authorization: token } });
 

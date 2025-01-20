@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Frame from "../../images/frame.png";
 import { Listbox } from "@headlessui/react";
 import { passwordLength } from "../../utils/common";
+import { registerApi, signInApi } from "../../api/methods-marketplace";
+import { setCookies } from "../../utils/cookies";
 
 // List of country codes
 
@@ -19,7 +21,7 @@ const Signup = () => {
     password: "",
     confirmPassword: ""
   });
-  console.log("🚀 ~ Signup ~ formData:", formData);
+  const [loading, setLoading] = useState(false);
   const countries = [
     { code: "+1", label: "United States", flag: "🇺🇸" },
     { code: "+91", label: "India", flag: "🇮🇳" },
@@ -76,41 +78,46 @@ const Signup = () => {
       newErrors.confirmPassword = "Passwords do not match";
     }
 
-    if (!captchaValid) {
-      newErrors.captcha = "CAPTCHA validation is required";
-    }
-
     return newErrors;
   };
 
-  const handleCaptcha = (value) => {
-    if (value) {
-      setCaptchaValid(true);
-    } else {
-      setCaptchaValid(false);
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = validate();
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Signup successful", formData);
+      try {
+        const result = await registerApi(formData);
+
+        if (result.data.status === 200) {
+          if (result.data.message === "verification required") {
+            // setOTP(true);
+          } else {
+            setCookies(result.data.data.token);
+          }
+        }
+        setLoading(false);
+      } catch (err) {
+        if (err?.response?.status === 422) {
+          console.log("Error occurred:", err);
+        }
+        setLoading(false);
+      }
     }
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:h-dvh items-center justify-center p-4">
+    <div className="flex flex-col md:flex-row md:h-auto items-center justify-center p-4">
       <div className="flex-shrink-0 md:w-1/2 h-full">
         <img
           src={Frame}
           alt="Illustration"
           className="w-full h-full object-cover rounded-3xl"
-          classNames={{
-            wrapper: "!max-w-fulll"
-          }}
+          // classNames={{
+          //   wrapper: "!max-w-fulll"
+          // }}
         />
       </div>
       <div className="md:w-1/2 max-w-md mx-auto mt-[2rem]">
@@ -237,7 +244,7 @@ const Signup = () => {
           </div>
           <div className="mb-4">
             <input
-              type="address1"
+              type="text"
               id="address1"
               name="addressLine1"
               placeholder="Address Line 1"
@@ -253,7 +260,7 @@ const Signup = () => {
           </div>
           <div className="mb-4">
             <input
-              type="address2"
+              type="text"
               id="address2"
               name="addressLine2"
               placeholder="Address Line 2"
@@ -315,9 +322,10 @@ const Signup = () => {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-yellow-400 text-black py-2 px-4 border border-lg border-black rounded hover:bg-yellow-300 transition"
           >
-            Sign Up
+            {loading ? "Loading" : "Sign Up"}
           </button>
         </form>
 
